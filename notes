@@ -1,0 +1,56 @@
+THE BCRYPT-NODE MODULE:
+- uses a module called bcrypt-node. This module is written in pure JavaScript just like most other modules so
+it's easy to install. there is another bcrypt module. THis requires some C code to be compiled. compiled C code
+will run faster than pure JavaScript, but it can cause issues if our computer isnt set up correctly for
+compiling C code. When the time comes for more speed then we should consider switching over to the C bcrypt
+module.
+
+CREATING A USER MODEL
+- a model is a representation of a database record in a ncie object in our programming language of choice. In
+this case it will be in JavaScript objects
+
+- to specify what we are going to store within our data base we have to define a schema
+
+-so in the root of our folder we create a separate folder called models. this will contain the database model
+- for each model we create a file, for the first model we create a file called user.js. this will hold the user
+model. inside that file we created at schema with the help of mongoose. mongoose is a MongoDB object modeling
+tool so it helps us to create a schema and we can use syntax that is simular to javascript objects
+-once we have created the schema with the properties, we can add methods. these methods will get called when we
+need data from our database
+
+- we will also want to securely store our passwords. in order to do this we can apply a one-way hash to it using
+the bcrypt algorithm
+-bcrypt works by running an algorithm many number of times to give a secure hash, but that number of times
+is configurable. THe higher the number to more secure hash but the longer it will take
+
+- after we have defined our schema we will need to have to define a pre-save action that will hash the password
+before it gets saved to the database. this pre-save hashing function is kinda complex but we only have to do it once
+we will never have to call any fancy logic to hash the password, it will happen every time we save the model
+into Mongo
+- but we will still need to write code to compare the real password to a password guess,
+
+- so when ever we need to define a method on the schema we write schemaName.methods.functionName
+
+- then once we are done with the schema we need to attach it to the actual model in a file.
+
+USING THE MODEL
+-so we create the a new file called app.js, our 'home' page for the app
+- so the actual thing that does the connecting with the MongoDB is the mongoose.conenct() method. with that
+method set the port on which we want the database to run
+
+-we are also using app.set() and I can not remember what that does
+
+
+CONNECTING DATABASE TO A NODE.JS APPLICATION:
+- so we will need a MongoClient and that is what will be used to connect to MongoDB database
+- the MongoDB Node.js Driver allows you to easily with MongoDB databases from within Node.js applications. we will
+need a driver in order to connect to our database and execute queries.
+- to install the driver all we have to do is npm install mongodb
+
+- the driver lets us easily interact with MongoDB databases from within Node.js applications
+- when we use the mongoose.connect() that is us connection to the MongoDB
+
+-so I have found the whole database thing kinda confusing but I think I found a tutorial to make things easier
+
+- when we see a connot get / on the screen that means that the server sent nothing back to the browser
+- when we use __dirname it gives us the full path to the file that we are in.
