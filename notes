@@ -54,3 +54,300 @@ need a driver in order to connect to our database and execute queries.
 
 - when we see a connot get / on the screen that means that the server sent nothing back to the browser
 - when we use __dirname it gives us the full path to the file that we are in.
+- we use a middleware called body-parser to handle data form the form
+
+- so the bodyParser method  parses incoming request bodies in a middleware before our handlers
+- ya so the app.use(function) is a middleware that will get run on every request. so the bodyParser will get
+run on every request
+- the bodyParser.urlencoded([options]). returns middleware that only parses urlencoded bodies and only looks at
+requests where the Content-Type header matches the type option.
+- we will use the extended option, this allows us to parse the URL encoded data with the qs library when true
+-it will then add the information to the request body
+
+SETTING UP MONGODB:
+- the first thing that we are going to do is set things up with just mongo but then we will use mongoose to
+make things easier.
+
+-once we have mongodb installed we can connect MongoDB through the MongoClient
+-ok so it seems like we can set up the MongoDB in the cloud with atlas or we can set up things locally on our
+computer for development work
+- so it seems like we need to add mondo to the executable path so that commands are accessible from outside the
+MongoDB bin folder
+
+ENVIROMENT VARIBLES:
+- these are variable that describe the enviroment in which programs run. in windows enviroment variables have a name
+and value
+
+- the path variable tells the computer where to look for executable programs
+- environment variables hold values related to the current environment. like the operating Systems or user session.
+
+PATH:
+- one of the most well know environment variables is called PATH. it specifies the directories in which executable
+programs are located on the machine that can be started withour knowing and typing the whole path to the file
+or command line
+- ok the the path varible is definetly what we want, it lets us set a path to the executable and then set that value
+to a key and set that as the PATH. we can then just type this key to the command line and have the whole path executed
+- without the PATH varible we need to run programs using absolute paths. so basically its just a varible with a
+bunch of short cuts. when we enter a command on the CLI without using the absolute path, the operating system
+checks the PATH varible
+
+-so once we have added the mongo to the path variable we just do the command mongod to run mongo
+- MongoDB lets us store things called documents inside databases. Each database contains multiple collections
+- so it goes database then documents and then collections
+- so we call mongod to run MongoDB and then we have to run mongo to open the mongo shell, this lets us add things
+to the MongoDB.
+- we have to make sure to have the mongod window open or else we won't be able to interact with the mongo shell
+- the db command lets us see the current selected database. which is test
+- we use the use command to create and change to a new database command
+
+-ok so we used the command db.characters.insertOne({name: dude}) to create a character  collection and add a item to it
+- that should seem find for now. Now we have to access MongoDB with MongoDB Compass
+
+MONGODB COMPASS:
+-this is just another wat to access MongoDB. its an app that makes checking and editing databases easier if you don't
+like the command line(coward!!!!)
+- damn my database stuff is really there and even our collection is there
+
+
+CONNECTING TO MONGODB WITH A NODE SERVER
+-when we build applications, we connect to MongoDb through our applications(not through Mongo Shell nor Compass)
+ - to connect to MongoDb we need to use a driver, we can use the native mongodb package or we can use mongoose, lets
+ use mongoose
+ -ok so the MongoClient stuff I was seeing was using the built in driver to connect to node
+ - once we have connected to the database with mongoose we need to check if we made the connection successfully
+ or not, we can do this by setting a variable db equal to mongoose.connection then on that db variable we can
+ call a .on() method for an error handler and a db.once() to do something when we have made a successfull connection
+
+ -once the connection opens, the callback in .once() will be called
+
+ -damn so I just go into my terminal and run the the node command and the server with the database works. THey
+ are officially connected. Only took me four hours and 1 mental break down. that's definitely better than 2 mental break downs
+
+MONGOOSE:
+-mongoose is a library that makes MONGODB easier to use. it does two things:
+1) it give structure to MongoDB collections
+2) it gives you helpful methods to use
+
+CREATING A MODEL:
+- in Mongoose, you need to use models to create, read, update or delete items from a MongoDB collection
+- to create a model we need to create a Schema and a schema lets us define structure of an entry in the collection
+this entry is also called a document.
+-so basically we use models to create, read, update or delete items from a MongdoDB collection.
+- to create a model we need to create a schema and a schema lets us define a document
+
+-in mongoose, everything is derived from a Schema and then we will compile our schema into a model
+- when we go new <schemaName> that is a model
+- so basically we create our schema, which is how our document will be layed out and then we compile that
+schema into a new model, ok that makes sense
+
+- we can also add method to our documents to handle functionality simply go
+        <schemaName>.method.<methodName> = ()=>{}
+
+- functions added to the methods property of a schema get compiled into the model prototype and exposed on each
+document instance
+- real quick just need a refresher on what exactly is a prototype
+- so basically it is saying that on the documents prototype we are defining methods that will
+
+PROTOTYPE:
+-they are the mechanism in which JavaScript object inherit features from one another. JavaScript objects
+can have a prototype object to provide inheritance
+- so basicallya prototype is an object that javascript uses for inheritance and that prototype can also
+have a prototype and so on, this is what is know as the prototype chain
+- so when we add a mehtod to the prototype we are enabling all the objects created using that constructor
+function to share those properties.
+
+
+- so you create a model which is used to create, read, update or delete items from a MongoDB collection
+- we use a model to create a Schema and then a Schema lets us define a document
+
+- the body parser parses the incoming request bodies before our handlers and makes them available under the req.body
+- a model is a class which we construct documents, then we need to create a model and then use that model
+to instantiate a document.
+- we currently have a schema, we then need to create a model and then a document with the new keyword
+
+-models are just fancy constructors compiled form Schema definitions. An isntance of a model is called a
+document. models are responsible for creating and reading documents from the underlying MongoDB database
+
+- to create our model we go const Tank mongoose.model('name',schema) the first aregument is the singular name of the collection our
+model is for. Mongoose automatically looks for the plural, lowercase version of our model name. Thus for
+the example above, the model Tank would be for the tanks collection in our database.
+
+-when we used db.characters.insertOne({}) we created a collection called characters
+- so right now I don't think we have any documents
+- .model() function makes a copy of schema, so we need to make sure we have added everything we want to the schema
+before calling model()
+- an instance of a model is called a document, we can create and save them to the database
+
+- then we create our isntance and save it but nothing will be created or removed until the connection
+on our model uses is open
+-it is common for the models to have a seperate folder and inside the folder there are different files for
+each model.
+
+- so just to reiterate, everything in MongoDB is derived from a Schema. then we compile our schema into our model
+which is a special constructor and instances of the models are called documents.
+
+- each schema maps to a MOngoDB collection and defines the shape of the documents within that collection
+- ooooooh shit I got documents and collections messed up, it does database->collection->documents
+
+- so when we are creating our schema we are basically creating the shape of the documents that are inside that
+collection
+- each key that we create in our schema defines a property in our documents which will be cast to its associated
+SchemaType, a schemaType is just when we say string after the name key
+
+STATIC METHODS:
+- defined with a static keyword, it defines a static method for a class. Static methods aren't called on the instance of
+the class.  They are on the class itself, these are often utility functions
+- static methods have no access to data stored in specific objects
+- mehtods operate on the class instace instead of the class
+ - to call a static method we don't have to have an instace of the class
+ - whatever, still not 100% what or when to use them
+
+ - so we have created a schema, which we will then compile down into our model and then we will get an instance of
+ that model to create the structure of the docuemnt inside the collection
+
+ - so now we will create a model, which is a fnacy constructor comiled from a model an instacne of a model is
+ called a document. Models are responsible fro creating and reading documents fromt he underlying MongoDB
+ database.
+ - to create our model we call mongoose.model('name',schema)
+ - the first argument is the singular name of the collection our model is for. Mongoose automatically looks for the
+ plural, lowercased version of model name, so we define the name to be Character, which means that Mongoose
+ will look for the characters collection
+
+ - docuemtn and model are distinct classes in Mongoose. the Model class is a subclass of the Document class
+ when we use the model constructor we create a new document
+
+ - when we create an instance of the model with new(also called a document) we have created the character
+ in memory but it has not been saved to the database yet. to save to the database,we have to runt he save
+ method
+
+ - ok so I kinda have an idea on how the whole schema models collections and documetns systems works but I am not sure How to
+ actually grab the stuff and display it. So I am going to learn about Views and how they work
+
+ VIEWS:
+ - so looks like no matter what we need a template engine.
+ - the view engine that we are using is actually the EJS modules
+ - so we use app.set() to tell express about the view engine and to tell about where the views file is
+
+ -this is what happens when we call render
+ 1)express builds up the context object everytime you call render. These context objects will get passed
+ to the view engine when it's time to render these are the varibles available to views
+
+ - so I should create one more database just to make sure I have things figured out.
+ - so we where adding items to the database throught the mongo shell but we do not have to actually do that
+ - but it looks like we still need to open the command shell to create a database. so to do that we have to
+ use mongo(whihc is the shell) that is inluded as part of the MongoDB server installation.
+ - then we have to call the mongod which runs background process that handles requests.
+
+ - we use the .connect method to connect to the local database running on the default port
+ - so we have the connection set up, now we want to use it to tell us that it is connected when we run it
+ - we should always make sure to connect before we use the model
+
+ ERROR HANDLING:
+ - there are two classes of errors that can occur with a Mongoose connection
+ 1) Error on initial connection. if initial connection fails, Mongoose will not attempt to reconnect, it will
+ emit an error evern and the promise mongoose.connect() returns will reject
+ 2) Error after initial connection was established. Mongoose will attempt to reconnect, and will emit an 'error'
+ event
+
+ -to handle the initial connection we will use the .catch() method
+
+
+ -so when we initially connect we want to create an instance of the model, which is actually a document inside a collection
+ and since we don't have any collections Mongodb should create one for use based on what we put in our model
+
+
+- so first I want to be able to make a get request to ('/') and receive back all the comments, basically at a high level
+we should just be able to make a get request and then it will run the a function that will return all the comments in the
+collection. So I think what I want to do is create an API
+
+-routing matches an HTTP verb to a request handler
+- so we have created the requests, now we just have to create the server and then make requests to the server
+using Post man and It should return the message to us, we could also use curl. nah I want to use post man
+- cool so it works and It means that it is running on port 3000
+
+- ok so we want to properly create an API so we should version it.
+- when we version our api we are using the express Router method, what does that do again ?
+
+- the express.ROuter class creates modual mountable route handlers. A ROuter instance is a complete middleware and
+routing system, this is often referred to as a 'mini-app', so this basically means that we can call middleware
+methods and http methods on it
+
+- so when we are routing we use middleware, and middleware are just functions that have access to the request object,
+the response object and the next middleware function. in our case we are using the res.send() method
+so we do not have to call the next method. calling res.send() will eliminate the middleware stack.
+
+-when we have the use method without a mount path specified then it gets ran every time the app receives a request
+- when we have a middleware function with a mounted path it runs for every http method that sends a request to the url
+
+- then we need to set up the HTTP status codes.
+the status codes pretty much go like this
+100s: hold on
+200s: here you go
+300s: go away
+400s: you messed up
+500s: I messed up
+
+- in express, the default status code is 200. If the user visits a URL where no resource is found and
+our server doesn't have a request for it, express will send a 404 error, if we have some other error express will
+send a 500 code
+- we can use res.status() to change what type of status we give it
+
+
+NODE.JS MODULE EXPORTS:
+-modules are just code that we group together for the purpose of sharing and resuing code
+- node is created with a module specification called commonJS which is where we get the module exports and
+the require syntax from
+- the module.exports are the instruction that tells Node.js which bits of code to export from a given file
+so other files are allowed to access the exported code.
+- so basically moduel.exports is just so that we can export a function
+- so we can have multiple module.exports in one file
+
+- node uses commonJS while client side javascript runs ES modules
+
+- so now I need to be able to query the database with all the comments. I think this will be done with mongoos
+- what even is MONGOOSE
+- MONGOOSE is an object data modeling library for MongoDB for MongoDB and Nodes.js. it manages relationships
+between data, provides schema validation and is used to translate between objects in code and representation
+of those objects in MongoDB
+
+MONGOOSE SCHEMA VS MODEL:
+- A Mongoose model is a wrapper on the Mongoose schema. A Mongoose schema defines the structure of the document, default values
+validators, ect. whereas a Mongoose model provides an interface to the database for creating, querying, updating
+and deleting records etc.
+
+- so the mongoose schema defines the structure of the document and the collection where a model provides an interface
+to the database for creating, querying, updating, deleting records, ect.
+- so we need to create a model and use it as an interface to interact with our data
+- our model will be how we interact with the document that we have defined through the Schema
+
+- so the first thing that we need to do is reference mongoose
+- then we define a schema which we have. and our schema will get compiled down to a Model by calling
+mongoose.model('Comment',SchemaName) the Comment will map to a docuemnt called comments and it will use
+the scheama we provide it for how to structure the document
+- when we need to create a document we create an instance of the model using the new operator
+- when an document is created Mongo adds some extra goodies to it. One of those things that it does is add
+an _id field. This field is auto generated by Mongo and is a primary key of the collection. Its value is a
+unique indentifier for the document
+- it creates the value of the fields
+- it also creates a __v field, which is the versionKey property set on each document when first created by Mongoose
+it contains the internal revision of the document
+
+FETHCIN A RECORD:
+- so Mongoose models are responsible for interacting with documnets fromt he underlying MongoDB database
+- so when we are querying the database we use the query syntax from MongoDB which means that I just use
+the syntax that I would use in the Mongo shell, right??
+- so to retrieve all the documents from the collection I would call db.comments.fin({}) but do we have a
+reference of the database ? in this case I think we would just use the model
+- so we are importing the the model from the testSchema file and then we are going to run the query on it
+- so we definetly are going to use the model inplace of the db, the docs have said it so
+- we import the model and then run a query on it
+- the good news is that it worked but we need it to just return the comments not all this meta data bs
+that it is currently returning
+
+- the find method returns a cursor to the document that match the query criteria. when the find() method
+'returns documents', the method is actually returning a cursor to the documents
+- ok so what is a cursor, it is a pointer to the result set of a query
+
+-so the .find() method returns a promise and we can use the .then() method to return the proper results
+
+- so now we want to try to delete a comment.

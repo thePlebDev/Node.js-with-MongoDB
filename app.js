@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const MongoClient = require('mongodb').MongoClient
 
 const Comments = require('./models/testSchema');
+const apiVersion = require('./APIVersions/api1.js')
 
 const db = mongoose.connection;
 
@@ -18,18 +19,18 @@ mongoose.connection.on('error',err =>{
 })
 
 //INITIAL CONNECTION, NO ERRORS TO HANDLE
-db.once('open', ()=>{
-  const comment = new Comments({
-    author:'another one',
-    body:'good but not the goodest',
-    date: Date.now()
-  })
-
-  comment.save((err,document)=>{
-    if(err) return handleError(err)
-    console.log(document)
-  })
-})
+// db.once('open', ()=>{
+//   const comment = new Comments({
+//     author:'another one',
+//     body:'good but not the goodest',
+//     date: Date.now()
+//   })
+//
+//   comment.save((err,document)=>{
+//     if(err) return handleError(err)
+//     console.log(document)
+//   })
+// })
 
 
 const app = express()
@@ -38,10 +39,8 @@ const app = express()
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use('/v1',apiVersion);
 
 
-app.get('/',(req,res)=>{
-  res.render('index')
-});
 
 app.listen(3000)
